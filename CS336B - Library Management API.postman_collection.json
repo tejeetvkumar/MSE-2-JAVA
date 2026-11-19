@@ -1,0 +1,164 @@
+{
+  "info": {
+    "name": "CS336B - Library Management API",
+    "description": "Postman collection for the CS336B MSE-2 Q2 Library Management REST API (Spring Boot). Tested against http://localhost:8081/books (port 8080 was occupied by an Oracle listener on this machine, so the app runs on 8081). Change the baseUrl variable to 8080 if your port 8080 is free.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Book",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"title\": \"Java Programming\",\n  \"author\": \"Herbert Schildt\",\n  \"category\": \"Programming\",\n  \"availableCopies\": 10\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Expected: 201 Created"
+      }
+    },
+    {
+      "name": "Get All Books",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Expected: 200 OK with all books"
+      }
+    },
+    {
+      "name": "Get Book by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "1"]
+        },
+        "description": "Expected: 200 OK with book details"
+      }
+    },
+    {
+      "name": "Update Book",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Advanced Java\",\n  \"author\": \"James Gosling\",\n  \"category\": \"Computer Science\",\n  \"availableCopies\": 15\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "1"]
+        },
+        "description": "Expected: 200 OK with updated details"
+      }
+    },
+    {
+      "name": "Delete Book",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "1"]
+        },
+        "description": "Expected: 200 OK with deletion message"
+      }
+    },
+    {
+      "name": "Add Duplicate Book ID (409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"title\": \"Duplicate\",\n  \"author\": \"Duplicate\",\n  \"category\": \"Duplicate\",\n  \"availableCopies\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Negative test: Expected 409 Conflict"
+      }
+    },
+    {
+      "name": "Get Nonexistent Book (404)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/books/999",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "999"]
+        },
+        "description": "Negative test: Expected 404 Not Found"
+      }
+    },
+    {
+      "name": "Update Nonexistent Book (404)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Nope\",\n  \"author\": \"Nope\",\n  \"category\": \"Nope\",\n  \"availableCopies\": 0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/999",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "999"]
+        },
+        "description": "Negative test: Expected 404 Not Found"
+      }
+    },
+    {
+      "name": "Delete Nonexistent Book (404)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/books/999",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "999"]
+        },
+        "description": "Negative test: Expected 404 Not Found"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    }
+  ]
+}
